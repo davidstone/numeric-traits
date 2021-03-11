@@ -20,6 +20,7 @@ target_link_libraries(numeric_traits INTERFACE strict_defaults_interface)
 
 add_library(numeric_traits_test
 	source/numeric_traits/incomplete.cpp
+	source/numeric_traits/int128.cpp
 )
 
 target_link_libraries(numeric_traits_test PUBLIC numeric_traits strict_defaults)
