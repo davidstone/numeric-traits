@@ -3,7 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#include <numeric_traits/max_value.hpp>
+#include <numeric_traits/min_max_value.hpp>
 
 #include <limits>
 #include <type_traits>
@@ -12,6 +12,7 @@ namespace {
 
 template<typename T>
 constexpr auto check_type() {
+	static_assert(numeric_traits::min_value<T> == std::numeric_limits<T>::min());
 	static_assert(numeric_traits::max_value<T> == std::numeric_limits<T>::max());
 }
 
@@ -54,19 +55,41 @@ static_assert(check_cv_qualifiers<char16_t>());
 static_assert(check_cv_qualifiers<char32_t>());
 
 template<typename T>
-constexpr auto check_no_max() {
+constexpr auto check_no_min_max() {
+	static_assert(std::is_same_v<decltype(numeric_traits::min_value<T>), numeric_traits::incomplete>);
 	static_assert(std::is_same_v<decltype(numeric_traits::max_value<T>), numeric_traits::incomplete>);
 }
 
 template<typename T>
-constexpr auto check_no_max_cv_qualifiers() {
-	check_no_max<T>();
-	check_no_max<T const>();
-	check_no_max<T volatile>();
-	check_no_max<T const volatile>();
+constexpr auto check_no_min_max_cv_qualifiers() {
+	check_no_min_max<T>();
+	check_no_min_max<T const>();
+	check_no_min_max<T volatile>();
+	check_no_min_max<T const volatile>();
 	return true;
 }
 
-static_assert(check_no_max_cv_qualifiers<void>());
+static_assert(check_no_min_max_cv_qualifiers<void>());
+static_assert(check_no_min_max_cv_qualifiers<struct s>());
+enum unscoped_enum {};
+static_assert(check_no_min_max_cv_qualifiers<unscoped_enum>());
+enum class scoped_enum {};
+static_assert(check_no_min_max_cv_qualifiers<scoped_enum>());
+
+template<typename T>
+constexpr auto check_byte() {
+	static_assert(numeric_traits::min_value<T> == std::byte(0));
+	static_assert(numeric_traits::max_value<T> == std::byte(numeric_traits::max_value<unsigned char>));
+}
+
+constexpr auto check_byte_cv_qualifiers() {
+	check_byte<std::byte>();
+	check_byte<std::byte const>();
+	check_byte<std::byte volatile>();
+	check_byte<std::byte const volatile>();
+	return true;
+}
+
+static_assert(check_byte_cv_qualifiers());
 
 } // namespace
