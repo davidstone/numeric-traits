@@ -7,7 +7,10 @@ cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
 project(numeric_traits LANGUAGES CXX)
 
-add_subdirectory(cmake_strict_defaults)
+get_directory_property(has_parent PARENT_DIRECTORY)
+if (NOT has_parent)
+	add_subdirectory(cmake_strict_defaults)
+endif()
 
 add_library(numeric_traits INTERFACE)
 
