@@ -19,32 +19,29 @@ extern incomplete min_value;
 template<typename>
 extern incomplete max_value;
 
-namespace detail {
-
+// These concepts exist until we can delete variable templates
 template<typename T>
 concept has_min_value = !std::is_same_v<decltype(min_value<T>), incomplete>;
 
 template<typename T>
 concept has_max_value = !std::is_same_v<decltype(max_value<T>), incomplete>;
 
-} // namespace detail
-
-template<detail::has_min_value T>
+template<has_min_value T>
 inline constexpr auto min_value<T const> = min_value<T>;
 
-template<detail::has_max_value T>
+template<has_max_value T>
 inline constexpr auto max_value<T const> = max_value<T>;
 
-template<detail::has_min_value T>
+template<has_min_value T>
 inline constexpr auto min_value<T volatile> = min_value<T>;
 
-template<detail::has_max_value T>
+template<has_max_value T>
 inline constexpr auto max_value<T volatile> = max_value<T>;
 
-template<detail::has_min_value T>
+template<has_min_value T>
 inline constexpr auto min_value<T const volatile> = min_value<T>;
 
-template<detail::has_max_value T>
+template<has_max_value T>
 inline constexpr auto max_value<T const volatile> = max_value<T>;
 
 
