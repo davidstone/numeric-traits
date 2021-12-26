@@ -9,7 +9,11 @@ project(numeric_traits LANGUAGES CXX)
 
 get_directory_property(has_parent PARENT_DIRECTORY)
 if (NOT has_parent)
-	add_subdirectory(cmake_strict_defaults)
+	set(CMAKE_CXX_STANDARD 23)
+	set(CMAKE_CXX_STANDARD_REQUIRED On)
+	set(CMAKE_CXX_EXTENSIONS Off)
+
+	add_subdirectory(dependencies/cmake_strict_defaults)
 endif()
 
 add_library(numeric_traits INTERFACE)
