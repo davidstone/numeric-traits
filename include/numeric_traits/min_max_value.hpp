@@ -21,10 +21,10 @@ extern incomplete max_value;
 
 // These concepts exist until we can delete variable templates
 template<typename T>
-concept has_min_value = !std::is_same_v<decltype(min_value<T>), incomplete>;
+concept has_min_value = !std::same_as<decltype(min_value<T>), incomplete>;
 
 template<typename T>
-concept has_max_value = !std::is_same_v<decltype(max_value<T>), incomplete>;
+concept has_max_value = !std::same_as<decltype(max_value<T>), incomplete>;
 
 template<has_min_value T>
 inline constexpr auto min_value<T const> = min_value<T>;

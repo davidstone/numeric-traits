@@ -51,10 +51,10 @@ template<typename T>
 using make_unsigned = typename make_unsigned_impl<T>::type;
 
 template<typename T>
-concept signed_builtin = std::signed_integral<T> or std::is_same_v<T, int128_t>;
+concept signed_builtin = std::signed_integral<T> or std::same_as<T, int128_t>;
 
 template<typename T>
-concept unsigned_builtin = std::unsigned_integral<T> or std::is_same_v<T, uint128_t>;
+concept unsigned_builtin = std::unsigned_integral<T> or std::same_as<T, uint128_t>;
 
 #else
 

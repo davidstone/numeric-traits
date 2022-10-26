@@ -56,8 +56,8 @@ static_assert(check_cv_qualifiers<char32_t>());
 
 template<typename T>
 constexpr auto check_no_min_max() {
-	static_assert(std::is_same_v<decltype(numeric_traits::min_value<T>), numeric_traits::incomplete>);
-	static_assert(std::is_same_v<decltype(numeric_traits::max_value<T>), numeric_traits::incomplete>);
+	static_assert(std::same_as<decltype(numeric_traits::min_value<T>), numeric_traits::incomplete>);
+	static_assert(std::same_as<decltype(numeric_traits::max_value<T>), numeric_traits::incomplete>);
 }
 
 template<typename T>

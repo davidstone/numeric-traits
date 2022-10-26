@@ -11,11 +11,11 @@ namespace {
 
 using namespace numeric_traits;
 
-static_assert(std::is_same_v<detail::make_signed<int>, int>);
-static_assert(std::is_same_v<detail::make_signed<unsigned>, int>);
+static_assert(std::same_as<detail::make_signed<int>, int>);
+static_assert(std::same_as<detail::make_signed<unsigned>, int>);
 
-static_assert(std::is_same_v<detail::make_unsigned<int>, unsigned>);
-static_assert(std::is_same_v<detail::make_unsigned<unsigned>, unsigned>);
+static_assert(std::same_as<detail::make_unsigned<int>, unsigned>);
+static_assert(std::same_as<detail::make_unsigned<unsigned>, unsigned>);
 
 static_assert(detail::signed_builtin<int>);
 static_assert(!detail::signed_builtin<unsigned>);
@@ -27,11 +27,11 @@ static_assert(!detail::unsigned_builtin<void>);
 
 #if defined NUMERIC_TRAITS_DETAIL_HAS_128_BIT
 
-static_assert(std::is_same_v<detail::make_signed<detail::int128_t>, detail::int128_t>);
-static_assert(std::is_same_v<detail::make_signed<detail::uint128_t>, detail::int128_t>);
+static_assert(std::same_as<detail::make_signed<detail::int128_t>, detail::int128_t>);
+static_assert(std::same_as<detail::make_signed<detail::uint128_t>, detail::int128_t>);
 
-static_assert(std::is_same_v<detail::make_unsigned<detail::int128_t>, detail::uint128_t>);
-static_assert(std::is_same_v<detail::make_unsigned<detail::uint128_t>, detail::uint128_t>);
+static_assert(std::same_as<detail::make_unsigned<detail::int128_t>, detail::uint128_t>);
+static_assert(std::same_as<detail::make_unsigned<detail::uint128_t>, detail::uint128_t>);
 
 static_assert(detail::signed_builtin<detail::int128_t>);
 static_assert(!detail::signed_builtin<detail::uint128_t>);
