@@ -38,8 +38,8 @@ static_assert(check_cv_qualifiers<unsigned long>());
 static_assert(check_cv_qualifiers<unsigned long long>());
 
 #if defined NUMERIC_TRAITS_DETAIL_HAS_128_BIT
-static_assert(check_cv_qualifiers<numeric_traits::detail::int128_t>());
-static_assert(check_cv_qualifiers<numeric_traits::detail::uint128_t>());
+static_assert(check_cv_qualifiers<numeric_traits::numeric_traits::int128_t>());
+static_assert(check_cv_qualifiers<numeric_traits::numeric_traits::uint128_t>());
 #endif
 
 static_assert(check_cv_qualifiers<float>());

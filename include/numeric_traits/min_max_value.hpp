@@ -52,17 +52,17 @@ template<>
 inline constexpr auto max_value<std::byte> = std::byte(-1);
 
 
-template<detail::unsigned_builtin T>
+template<unsigned_builtin T>
 inline constexpr auto min_value<T> = T(0);
 
-template<detail::unsigned_builtin T>
+template<unsigned_builtin T>
 inline constexpr auto max_value<T> = T(-1);
 
 // Signed integers are two's complement
-template<detail::signed_builtin T>
-inline constexpr auto max_value<T> = static_cast<T>(max_value<detail::make_unsigned<T>> / 2);
+template<signed_builtin T>
+inline constexpr auto max_value<T> = static_cast<T>(max_value<make_unsigned<T>> / 2);
 
-template<detail::signed_builtin T>
+template<signed_builtin T>
 inline constexpr auto min_value<T> = static_cast<T>(-max_value<T> - 1);
 
 

@@ -10,15 +10,16 @@
 #include <type_traits>
 
 namespace numeric_traits {
-namespace detail {
 
 #if defined __GNUC__
-	#define NUMERIC_TRAITS_DETAIL_HAS_128_BIT 1
+	#define NUMERIC_TRAITS_HAS_128_BIT 1
 	using int128_t = __int128_t;
 	using uint128_t = __uint128_t;
 #endif
 
-#if defined NUMERIC_TRAITS_DETAIL_HAS_128_BIT
+#if defined NUMERIC_TRAITS_HAS_128_BIT
+
+namespace detail {
 
 template<typename T>
 struct make_signed_impl {
@@ -32,8 +33,6 @@ template<>
 struct make_signed_impl<uint128_t> {
 	using type = int128_t;
 };
-template<typename T>
-using make_signed = typename make_signed_impl<T>::type;
 
 template<typename T>
 struct make_unsigned_impl {
@@ -47,14 +46,23 @@ template<>
 struct make_unsigned_impl<uint128_t> {
 	using type = uint128_t;
 };
+
+} // namespace detail
+
 template<typename T>
-using make_unsigned = typename make_unsigned_impl<T>::type;
+using make_signed = typename detail::make_signed_impl<T>::type;
+
+template<typename T>
+using make_unsigned = typename detail::make_unsigned_impl<T>::type;
 
 template<typename T>
 concept signed_builtin = std::signed_integral<T> or std::same_as<T, int128_t>;
 
 template<typename T>
 concept unsigned_builtin = std::unsigned_integral<T> or std::same_as<T, uint128_t>;
+
+using max_signed_t = int128_t;
+using max_unsigned_t = uint128_t;
 
 #else
 
@@ -70,7 +78,16 @@ concept signed_builtin = std::signed_integral<T>;
 template<typename T>
 concept unsigned_builtin = std::unsigned_integral<T>;
 
+using max_signed_t = std::intmax_t;
+using max_unsigned_t = std::uintmax_t;
+
 #endif
 
-} // namespace detail
+template<typename T>
+using promoted_unsigned = std::conditional_t<
+	sizeof(T) <= sizeof(unsigned),
+	unsigned,
+	make_unsigned<std::decay_t<T>>
+>;
+
 } // namespace numeric_traits
