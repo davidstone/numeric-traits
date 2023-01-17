@@ -3,16 +3,75 @@
 // (See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#include <numeric_traits/min_max_value.hpp>
+export module numeric_traits.min_max_value;
 
-#include <limits>
-#include <type_traits>
+import numeric_traits.incomplete;
+import numeric_traits.int128;
+
+import std_module;
+
+namespace numeric_traits {
+
+export template<typename>
+extern incomplete min_value;
+
+export template<typename>
+extern incomplete max_value;
+
+// These concepts exist until we can delete variable templates
+export template<typename T>
+concept has_min_value = !std::same_as<decltype(min_value<T>), incomplete>;
+
+export template<typename T>
+concept has_max_value = !std::same_as<decltype(max_value<T>), incomplete>;
+
+template<has_min_value T>
+constexpr auto min_value<T const> = min_value<T>;
+
+template<has_max_value T>
+constexpr auto max_value<T const> = max_value<T>;
+
+template<has_min_value T>
+constexpr auto min_value<T volatile> = min_value<T>;
+
+template<has_max_value T>
+constexpr auto max_value<T volatile> = max_value<T>;
+
+template<has_min_value T>
+constexpr auto min_value<T const volatile> = min_value<T>;
+
+template<has_max_value T>
+constexpr auto max_value<T const volatile> = max_value<T>;
+
+
+
+template<typename T> requires unsigned_builtin<T> or std::same_as<T, std::byte>
+constexpr auto min_value<T> = T(0);
+
+template<typename T> requires unsigned_builtin<T> or std::same_as<T, std::byte>
+constexpr auto max_value<T> = T(-1);
+
+// Signed integers are two's complement
+template<signed_builtin T>
+constexpr auto max_value<T> = static_cast<T>(max_value<make_unsigned<T>> / 2);
+
+template<signed_builtin T>
+constexpr auto min_value<T> = static_cast<T>(-max_value<T> - 1);
+
+
+template<std::floating_point T>
+constexpr auto min_value<T> = std::numeric_limits<T>::lowest();
+
+template<std::floating_point T>
+constexpr auto max_value<T> = std::numeric_limits<T>::max();
+
+} // namespace numeric_traits
 
 namespace {
 
 template<typename T>
 constexpr auto check_type() {
-	static_assert(numeric_traits::min_value<T> == std::numeric_limits<T>::min());
+	static_assert(numeric_traits::min_value<T> == std::numeric_limits<T>::lowest());
 	static_assert(numeric_traits::max_value<T> == std::numeric_limits<T>::max());
 }
 
