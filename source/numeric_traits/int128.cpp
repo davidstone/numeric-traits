@@ -24,6 +24,18 @@ template<typename T>
 struct make_signed_impl {
 	using type = std::make_signed_t<T>;
 };
+template<typename T>
+struct make_signed_impl<T const> {
+	using type = typename make_signed_impl<T>::type const;
+};
+template<typename T>
+struct make_signed_impl<T volatile> {
+	using type = typename make_signed_impl<T>::type volatile;
+};
+template<typename T>
+struct make_signed_impl<T const volatile> {
+	using type = typename make_signed_impl<T>::type const volatile;
+};
 template<>
 struct make_signed_impl<int128_t> {
 	using type = int128_t;
@@ -36,6 +48,18 @@ struct make_signed_impl<uint128_t> {
 template<typename T>
 struct make_unsigned_impl {
 	using type = std::make_unsigned_t<T>;
+};
+template<typename T>
+struct make_unsigned_impl<T const> {
+	using type = typename make_unsigned_impl<T>::type const;
+};
+template<typename T>
+struct make_unsigned_impl<T volatile> {
+	using type = typename make_unsigned_impl<T>::type volatile;
+};
+template<typename T>
+struct make_unsigned_impl<T const volatile> {
+	using type = typename make_unsigned_impl<T>::type const volatile;
 };
 template<>
 struct make_unsigned_impl<int128_t> {
