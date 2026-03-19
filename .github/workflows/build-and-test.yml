@@ -13,8 +13,8 @@ jobs:
   build:
     if: github.event_name != 'schedule'
     strategy:
+      fail-fast: false
       matrix:
-        fail-fast: false
         clang_version: [ 'main', '22' ]
     runs-on: ubuntu-latest
     steps:
