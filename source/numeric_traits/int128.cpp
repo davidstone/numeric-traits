@@ -111,6 +111,9 @@ using promoted_unsigned = std::conditional_t<
 	make_unsigned<std::decay_t<T>>
 >;
 
+static_assert(sizeof(max_unsigned_t) >= sizeof(std::size_t));
+static_assert(sizeof(max_unsigned_t) >= sizeof(std::uintmax_t));
+
 } // namespace numeric_traits
 
 namespace {
