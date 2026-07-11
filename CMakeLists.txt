@@ -25,7 +25,7 @@ target_include_directories(numeric_traits PUBLIC
 )
 
 target_link_libraries(numeric_traits
-	PUBLIC strict_defaults_interface std_module
+	PUBLIC std_module
 	PRIVATE strict_defaults
 )
 
