@@ -6,7 +6,7 @@
 #ifndef NUMERIC_TRAITS_HAS_INT128_HPP
 #define NUMERIC_TRAITS_HAS_INT128_HPP
 
-#if defined __GNUC__
+#if defined __GNUC__ or defined __clang__
 	#define NUMERIC_TRAITS_HAS_INT128 1
 #endif
 
