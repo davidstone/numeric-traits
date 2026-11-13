@@ -15,7 +15,7 @@ namespace numeric_traits {
 
 #if defined NUMERIC_TRAITS_HAS_INT128
 
-#if defined __GNUC__
+#if defined __GNUC__ or defined __clang__
 	export using int128_t = __int128_t;
 	export using uint128_t = __uint128_t;
 #endif
